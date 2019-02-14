@@ -163,7 +163,7 @@ class Output
 
     public function withJson($value)
     {
-        return json_encode((array)$value, JSON_UNESCAPED_UNICODE);
+        echo json_encode((array)$value, JSON_UNESCAPED_UNICODE);
     }
 
 }
