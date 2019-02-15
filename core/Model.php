@@ -10,17 +10,14 @@ class Model
 {
     protected $db;
 
-    public function __construct()
+    protected function __construct()
     {
         include __DIR__ . '/../config/database.php';
+        include __DIR__ . '/libraries/BasicDb.php';
         $host = $database['hostname'];
         $dbname = $database['database'];
         $uname = $database['username'];
         $pass = $database['password'];
-        try {
-            $this->db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $uname, $pass);
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
+        $this->db = new BasicDb($host, $dbname, $uname, $pass);
     }
 }
