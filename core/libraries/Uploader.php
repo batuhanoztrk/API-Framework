@@ -44,9 +44,9 @@ class Uploader extends Controller
         }
     }
 
-    public function base64_upload($file, $path, $limit, $allowedFormats = ["jpg", "png", "gif", "jpeg"])
+    public function base64_upload($file, $path, $limit = 1, $allowedFormats = ["jpg", "png", "gif", "jpeg"])
     {
-        $imgData = base64_decode($file);
+        /*$imgData = base64_decode($file);
         $f = finfo_open();
 
         $mime_type = finfo_buffer($f, $imgData, FILEINFO_MIME_TYPE);
@@ -72,7 +72,18 @@ class Uploader extends Controller
 
         } else {
             return -2;
+        }*/
+
+        $name = md5(uniqid(mt_rand(), true)) . ".png";
+
+        $target = realpath(__DIR__ . '/../../' . $path) . '/' . $name;
+
+        if (file_put_contents($target, base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file)))) {
+            return $this->base_url($path . "/" . $name);
+        } else {
+            return 0;
         }
+
     }
 
 }

@@ -13,7 +13,7 @@
  * @author Midori Koçak
  * @update 2 July 2015
  */
-class BasicDb extends \PDO
+class BasicDb extends PDO
 {
     public $pageCount;
     public $debug = false;
@@ -191,9 +191,13 @@ class BasicDb extends \PDO
         return $this;
     }
 
-    public function limit($start, $limit)
+    public function limit($start, $limit = null)
     {
-        $this->limit = ' LIMIT ' . $start . ',' . $limit;
+        if($limit == null){
+            $this->limit = ' LIMIT ' . $start;
+        }else{
+            $this->limit = ' LIMIT ' . $start . ',' . $limit;
+        }
         return $this;
     }
 
@@ -528,6 +532,12 @@ class BasicDb extends \PDO
     public function like($column, $value)
     {
         $this->where($column, $value, 'LIKE');
+        return $this;
+    }
+
+    public function or_like($column, $value)
+    {
+        $this->or_where($column, $value, 'LIKE');
         return $this;
     }
 
