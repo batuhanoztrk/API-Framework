@@ -191,10 +191,10 @@ class BasicDb extends PDO
         return $this;
     }
 
-    public function limit($start, $limit = null)
+    public function limit($start, $limit)
     {
-        if($limit == null){
-            $this->limit = ' LIMIT ' . $start;
+        if($start == null){
+            $this->limit = ' LIMIT ' . $limit;
         }else{
             $this->limit = ' LIMIT ' . $start . ',' . $limit;
         }

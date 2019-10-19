@@ -5,6 +5,7 @@
  * Date: 2019-01-20
  * Time: 21:21
  */
+include __DIR__ . '/latte.php';
 
 if (!function_exists('http_response_code')) {
     function http_response_code($code = NULL)
@@ -149,21 +150,35 @@ if (!function_exists('http_response_code')) {
 class Output
 {
 
+    public $latte;
+
+    public function __construct()
+    {
+        $this->latte = new Latte\Engine;
+        $this->latte->setTempDirectory(__DIR__ . "/../../templates")->setAutoRefresh(false);
+    }
+
     public function withStatus($code = 200)
     {
         http_response_code($code);
         return new Output();
     }
 
+    public function withJson($value)
+    {
+        echo json_encode((array)$value, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function render(string $name, array $params = [], string $block = null)
+    {
+        $this->withHeader("Content-type", "text/html");
+        $this->latte->render($name, $params, $block);
+    }
+
     public function withHeader($name = "Content-type", $value = "application/json")
     {
         header("$name: $value");
         return new Output();
-    }
-
-    public function withJson($value)
-    {
-        echo json_encode((array)$value, JSON_UNESCAPED_UNICODE);
     }
 
 }

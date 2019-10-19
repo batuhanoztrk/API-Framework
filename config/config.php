@@ -9,3 +9,5 @@
 $config['base_url'] = 'http://localhost';
 $config['isApi'] = false;
 $config['apikey'] = "";
+$config['allowedRoutes'] = [];
+$config['notAllowedRoutes'] = [];
