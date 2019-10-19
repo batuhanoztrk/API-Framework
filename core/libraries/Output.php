@@ -155,7 +155,7 @@ class Output
     public function __construct()
     {
         $this->latte = new Latte\Engine;
-        $this->latte->setTempDirectory(__DIR__ . "/../../templates")->setAutoRefresh(false);
+        $this->latte->setTempDirectory(__DIR__ . "/../../templates");
     }
 
     public function withStatus($code = 200)
@@ -177,7 +177,7 @@ class Output
 
     public function withHeader($name = "Content-type", $value = "application/json")
     {
-        header("$name: $value");
+        @header("$name: $value");
         return new Output();
     }
 
