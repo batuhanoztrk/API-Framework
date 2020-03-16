@@ -5,6 +5,7 @@
  * Date: 2019-02-10
  * Time: 03:55
  */
+include __DIR__ . '/class.upload.php';
 
 if (!function_exists('getimagesizefromstring')) {
     function getimagesizefromstring($data)
@@ -16,8 +17,40 @@ if (!function_exists('getimagesizefromstring')) {
 
 class Uploader extends Controller
 {
-
+    // Verot.net
     public function upload($file, $path, $limit = 1, $allowedFormats = ["jpg", "png", "gif", "jpeg"])
+    {
+
+        $image = $_FILES[$file];
+
+
+        $fileType = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
+
+        if (in_array($fileType, $allowedFormats)) {
+            if ($image['size'] <= $limit * 1024 * 1024) {
+
+                $foo = new \Verot\Upload\Upload($image);
+                $name = md5(uniqid(mt_rand(), true));
+                $foo->file_new_name_body = $name;
+                $target = realpath(__DIR__ . '/../../' . $path) . '/';
+
+                $foo->process($target);
+
+
+                if ($foo->processed) {
+                    return $this->base_url($path . "/" . $name);
+                } else {
+                    return 0;
+                }
+            } else {
+                return -1;
+            }
+        } else {
+            return -2;
+        }
+    }
+
+    /*public function upload($file, $path, $limit = 1, $allowedFormats = ["jpg", "png", "gif", "jpeg"])
     {
 
         $image = $_FILES[$file];
@@ -42,7 +75,7 @@ class Uploader extends Controller
         } else {
             return -2;
         }
-    }
+    }*/
 
     public function base64_upload($file, $path, $limit = 1, $allowedFormats = ["jpg", "png", "gif", "jpeg"])
     {
