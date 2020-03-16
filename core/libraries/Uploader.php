@@ -33,12 +33,12 @@ class Uploader extends Controller
                 $name = md5(uniqid(mt_rand(), true));
                 $foo->file_new_name_body = $name;
                 $target = realpath(__DIR__ . '/../../' . $path) . '/';
-
+                $foo->image_convert = "png";
                 $foo->process($target);
 
 
                 if ($foo->processed) {
-                    return $this->base_url($path . "/" . $name);
+                    return $this->base_url($path . "/" . $name . ".png");
                 } else {
                     return 0;
                 }
