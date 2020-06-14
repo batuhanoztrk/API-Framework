@@ -8,6 +8,12 @@ class PushNotification
     private $fcm_api = "https://fcm.googleapis.com/fcm/send";
     private $ios_api = "ssl://gateway.sandbox.push.apple.com:2195";
 
+    public function __construct($fcm_key, $pem_file, $pem_pass)
+    {
+        self::setFcmApi($fcm_key);
+        self::setPemFile($pem_file, $pem_pass);
+    }
+
     public function setFcmApi($key, $url = "https://fcm.googleapis.com/fcm/send")
     {
         $this->fcm_api_key = $key;

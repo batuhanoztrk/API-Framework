@@ -28,11 +28,11 @@ class Uploader extends Controller
 
         if (in_array($fileType, $allowedFormats)) {
             if ($image['size'] <= $limit * 1024 * 1024) {
+                $name = md5(uniqid(mt_rand(), true));
+                $target = realpath(__DIR__ . '/../../' . $path) . '/';
 
                 $foo = new \Verot\Upload\Upload($image);
-                $name = md5(uniqid(mt_rand(), true));
                 $foo->file_new_name_body = $name;
-                $target = realpath(__DIR__ . '/../../' . $path) . '/';
                 $foo->image_convert = "png";
                 $foo->process($target);
 
